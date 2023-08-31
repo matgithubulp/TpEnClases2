@@ -1,25 +1,22 @@
 
 package tpenclases2;
 
+
 import java.util.ArrayList;
 import java.util.TreeSet;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author ejarq
- */
-public class Empresa extends Empleado{
-    
-    private String razonSocial;
-    private int cuit;
-//    private ArrayList<Empleado> empleadoLista;
-    private TreeSet<Empleado> empleadoLista = new TreeSet();
 
-    public Empresa(String razonSocial, int cuit, TreeSet<Empleado> empeladoLista) {
+public class Empresa{
+    
+     private String razonSocial;
+    private int cuit;
+    private ArrayList<Empleado> empleados;
+
+    public Empresa(String razonSocial, int cuit, ArrayList<Empleado> empleados) {
         this.razonSocial = razonSocial;
         this.cuit = cuit;
-        this.empleadoLista = empeladoLista;
+        this.empleados = empleados;
     }
 
     public String getRazonSocial() {
@@ -30,19 +27,31 @@ public class Empresa extends Empleado{
         return cuit;
     }
 
-    public TreeSet<Empleado> getEmpeladoLista() {
-        return empleadoLista;
+    public void agregarEmpleado(Empleado empleado) {
+       empleados.add(empleado);
+        JOptionPane.showMessageDialog(null, "Empleado agregado a la empresa " + razonSocial);
+    }
+
+    public ArrayList<Empleado> getEmpleados() {
+        return empleados;
     }
     
-    public void agregarEmpleado(Empleado e){
-    empleadoLista.add(e);          
+    public void mostrarEmpleado(){
+    
+    String detallesEmpleados = "Empleados en la empresa " + razonSocial + ":\n";
+
+        for (Empleado empleado : empleados) {
+            detallesEmpleados += "Nombre: " + empleado.getNombreApellido() + "\nCategoria: " + empleado.getCategoria() + "\nSueldo: $" + empleado.getSueldo() + "\n";
+        }
+
+        JOptionPane.showMessageDialog(null, detallesEmpleados, "Empleados en la empresa", JOptionPane.INFORMATION_MESSAGE);
     }
-    
-    public void mostrarEmpleados(){
-    JOptionPane.showMessageDialog(null, empleadoLista);
     }
+
+    
+  
     
     
     
     
-}
+

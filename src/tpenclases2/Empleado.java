@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package tpenclases2;
 
-import java.util.ArrayList;
 
-/**
- *
- * @author ejarq
- */
+
 public class Empleado {
     
     
@@ -21,6 +14,14 @@ public class Empleado {
 
     public int getDni() {
         return dni;
+    }
+
+    public Empleado(int dni, String nombreApellido, String categoria, double sueldo, Empresa empersa) {
+        this.dni = dni;
+        this.nombreApellido = nombreApellido;
+        this.categoria = categoria;
+        this.sueldo = sueldo;
+        this.empersa = empersa;
     }
 
     public String getNombreApellido() {

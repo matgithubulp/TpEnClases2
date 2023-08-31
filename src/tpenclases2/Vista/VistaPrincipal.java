@@ -1,45 +1,19 @@
 
 package tpenclases2.Vista;
-
+import tpenclases2.Empresa;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import tpenclases2.Empleado;
 import tpenclases2.Empresa;
 
 public class VistaPrincipal extends javax.swing.JFrame {
 
-   
+    private ArrayList<Empresa> empresas = new ArrayList<>();
     public VistaPrincipal() {
         initComponents();
     }
    
-    public boolean verificar(){
-        int i = 0;
-        boolean verdadero = true;
-        if (jtxApellido.getText().isEmpty()) {
-            i++;
-            JOptionPane.showMessageDialog(null, "No ha ingresado el dato en Apellido.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
-            
-        } else if (jtxNombre.getText().isEmpty()) {
-            i++;
-            JOptionPane.showMessageDialog(null, "No ha ingresado el dato en Nombre.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
-            
-        } else if (jtxDocumento.getText().isEmpty()) {
-            i++;
-            JOptionPane.showMessageDialog(null, "No ha ingresado el dato en Documento.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
-            
-        } else if (jtxSueldo.getText().isEmpty()) {
-            i++;
-            JOptionPane.showMessageDialog(null, "No ha ingresado el dato en Sueldo.", "Campo Vacío", JOptionPane.WARNING_MESSAGE);
-        }else if(i > 0){
-         verdadero = true;
-        }else{
-            verdadero = false;
-        
-        }
-        
-        return verdadero;
-        
-    }
+    
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,6 +75,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         btnMostrar.setText("Mostrar emp.");
         btnMostrar.setEnabled(false);
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -252,59 +231,90 @@ public class VistaPrincipal extends javax.swing.JFrame {
     
     
     private void jbtnEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEmpresaActionPerformed
+        // Obtener la información de la nueva empresa desde la GUI
         String razonSocial = jtxRazonSocial.getText();
         int cuit = Integer.parseInt(jtxCuit.getText());
+
+        // Crear una nueva empresa y agregarla a la lista de empresas
+        Empresa nuevaEmpresa = new Empresa(razonSocial, cuit, new ArrayList<>());
+        empresas.add(nuevaEmpresa);
+
+        // Agregar el nombre de la nueva empresa al ComboBox
         jcbEmpresa.addItem(razonSocial);
-        
+
+        // Bloquear botones según el estado
         bloquear();
         
     }//GEN-LAST:event_jbtnEmpresaActionPerformed
 
     private void jcbEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEmpresaActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jcbEmpresaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        String apellido = jtxApellido.getText();
-        String nombre = jtxNombre.getText();
-        String nombreYapellido = apellido + nombre;
-        int documento = Integer.parseInt(jtxDocumento.getText());
-        double sueldo = Double.parseDouble(jtxSueldo.getText());
-        
-        String categoria = (String) jcbCategoria.getSelectedItem();
-        String empresa = (String) jcbEmpresa.getSelectedItem();
-        
-        boolean vaciasOcompletas = verificar();
+    // Obtener los datos del empleado desde la Vista- Se realizan parseos necesarios
+    String apellido = jtxApellido.getText();
+    String nombre = jtxNombre.getText();
+    int documento = Integer.parseInt(jtxDocumento.getText());
+    double sueldo = Double.parseDouble(jtxSueldo.getText());
+    String categoria = (String) jcbCategoria.getSelectedItem();
+    String razonSocialEmpresa = (String) jcbEmpresa.getSelectedItem();
+
+    // Buscar la empresa correspondiente
+    Empresa empresaSeleccionada = null;
+    for (Empresa empresa : empresas) {
+        if (empresa.getRazonSocial().equals(razonSocialEmpresa)) {
+            empresaSeleccionada = empresa;
+            break;
+        }
+    }
+
+    if (empresaSeleccionada != null) {
+        String nombreYapellido = apellido + " " + nombre;
+        Empleado nuevoEmpleado = new Empleado(documento, nombreYapellido, categoria, sueldo, empresaSeleccionada);
+        empresaSeleccionada.agregarEmpleado(nuevoEmpleado);
+
+        // Limpieza de campos después de guardar
+        jtxApellido.setText("");
+        jtxNombre.setText("");
+        jtxDocumento.setText("");
+        jtxSueldo.setText("");
+        jcbCategoria.setSelectedIndex(-1);
+       
+    } else {
+        JOptionPane.showMessageDialog(null, "No se encontró la empresa seleccionada.");
+    }
+
+    jcbEmpresa.setSelectedIndex(-1); // Reiniciar la selección del ComboBox de empresas
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        // Obtener el nombre de la empresa seleccionada en el ComboBox
+        String razonSocialEmpresa = (String) jcbEmpresa.getSelectedItem();
 
-        /* Create and display the form */
+        // Recorremos la lista de empresas para encontrar la empresa seleccionada
+        Empresa empresaSeleccionada = null;
+        for (Empresa empresa : empresas) {
+            if (empresa.getRazonSocial().equals(razonSocialEmpresa)) {
+                empresaSeleccionada = empresa;
+                break;
+            }
+        }
+
+        // Verificar si se encontró una empresa correspondiente
+        if (empresaSeleccionada != null) {
+            // Llamar al método mostrarEmpleado de la empresa seleccionada
+            empresaSeleccionada.mostrarEmpleado();
+        } else {
+            // Si no se encontró la empresa, mostrar un mensaje de error
+            JOptionPane.showMessageDialog(null, "No se encontró la empresa seleccionada.");
+        }
+    
+    }//GEN-LAST:event_btnMostrarActionPerformed
+
+    
+    public static void main(String args[]) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VistaPrincipal().setVisible(true);

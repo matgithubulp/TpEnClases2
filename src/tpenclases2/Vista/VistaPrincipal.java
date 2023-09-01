@@ -12,7 +12,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public VistaPrincipal() {
         initComponents();
     }
-   
+    
     
    
     @SuppressWarnings("unchecked")
@@ -42,10 +42,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jbtnEmpresa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(204, 204, 255));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 102)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 102), 5));
 
         jLabel11.setText("Documento");
+
+        jtxDocumento.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jLabel12.setText("Nombre");
 
@@ -53,7 +56,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         jLabel14.setText("Categoria");
 
-        jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jefe", "Administrador", "Gerente", "Seguridad" }));
+        jcbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Gerente", "Seguridad" }));
 
         jLabel15.setText("Sueldo");
 
@@ -138,14 +141,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(jcbEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnMostrar))
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 102)));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
 
         jLabel9.setText("Razon Social");
 
@@ -198,22 +201,22 @@ public class VistaPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(55, 55, 55)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105)
+                .addGap(80, 80, 80)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGap(186, 186, 186)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(148, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(119, 119, 119))
         );
 
         pack();
@@ -228,33 +231,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     
     }
        
-//    public void verificar(){
-//        
-//        int num = 0;
-//        
-//        if(jtxApellido.getText() == null){
-//            
-//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Apellido.", "error", ERROR);        
-//            num++;
-//        }else if(jtxNombre.getText() == null){
-//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Nombre.", "error", ERROR);        
-//            num++;
-//        }else if(jtxSueldo.getText() == null){
-//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de sueldo.", "error", ERROR);        
-//            num++;
-//        }else if(jtxDocumento.getText() == null){
-//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Documento.", "error", ERROR);        
-//            num++;
-//        }else if(jcbCategoria.getSelectedItem() == null){
-//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Categoria.", "error", ERROR);        
-//            num++;
-//        }else if(jcbEmpresa.getSelectedItem() == null){
-//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Empresa.", "error", ERROR);        
-//            num++;
-//        }
-//        
-//       
-//    }
     
     private void jbtnEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEmpresaActionPerformed
        try{
@@ -274,6 +250,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }catch(NumberFormatException d){
             JOptionPane.showMessageDialog(this, "Verifica los campos <ERROR de datos>.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+        jcbCategoria.setSelectedIndex(-1);
+        jcbEmpresa.setSelectedIndex(-1);
     }//GEN-LAST:event_jbtnEmpresaActionPerformed
 
     private void jcbEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEmpresaActionPerformed

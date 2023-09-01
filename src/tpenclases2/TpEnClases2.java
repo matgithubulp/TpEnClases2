@@ -13,7 +13,7 @@ public class TpEnClases2 {
         
         VistaPrincipal ejecutarVista = new VistaPrincipal();
         ejecutarVista.setVisible(true);
-        
+        ejecutarVista.setLocationRelativeTo(null);
         
         
         

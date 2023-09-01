@@ -228,9 +228,36 @@ public class VistaPrincipal extends javax.swing.JFrame {
     
     }
        
-    
+//    public void verificar(){
+//        
+//        int num = 0;
+//        
+//        if(jtxApellido.getText() == null){
+//            
+//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Apellido.", "error", ERROR);        
+//            num++;
+//        }else if(jtxNombre.getText() == null){
+//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Nombre.", "error", ERROR);        
+//            num++;
+//        }else if(jtxSueldo.getText() == null){
+//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de sueldo.", "error", ERROR);        
+//            num++;
+//        }else if(jtxDocumento.getText() == null){
+//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Documento.", "error", ERROR);        
+//            num++;
+//        }else if(jcbCategoria.getSelectedItem() == null){
+//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Categoria.", "error", ERROR);        
+//            num++;
+//        }else if(jcbEmpresa.getSelectedItem() == null){
+//            JOptionPane.showMessageDialog(null, "No ha llenado el campo de Empresa.", "error", ERROR);        
+//            num++;
+//        }
+//        
+//       
+//    }
     
     private void jbtnEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEmpresaActionPerformed
+       try{
         // Obtener la información de la nueva empresa desde la GUI
         String razonSocial = jtxRazonSocial.getText();
         int cuit = Integer.parseInt(jtxCuit.getText());
@@ -244,7 +271,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         // Bloquear botones según el estado
         bloquear();
-        
+        }catch(NumberFormatException d){
+            JOptionPane.showMessageDialog(this, "Verifica los campos <ERROR de datos>.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbtnEmpresaActionPerformed
 
     private void jcbEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEmpresaActionPerformed
@@ -252,40 +281,47 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jcbEmpresaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-    // Obtener los datos del empleado desde la Vista- Se realizan parseos necesarios
-    String apellido = jtxApellido.getText();
-    String nombre = jtxNombre.getText();
-    int documento = Integer.parseInt(jtxDocumento.getText());
-    double sueldo = Double.parseDouble(jtxSueldo.getText());
-    String categoria = (String) jcbCategoria.getSelectedItem();
-    String razonSocialEmpresa = (String) jcbEmpresa.getSelectedItem();
+    
 
-    // Buscar la empresa correspondiente
-    Empresa empresaSeleccionada = null;
-    for (Empresa empresa : empresas) {
-        if (empresa.getRazonSocial().equals(razonSocialEmpresa)) {
-            empresaSeleccionada = empresa;
-            break;
+         try {
+        String apellido = jtxApellido.getText();
+        String nombre = jtxNombre.getText();
+        String categoria = (String) jcbCategoria.getSelectedItem();
+        String razonSocialEmpresa = (String) jcbEmpresa.getSelectedItem();
+        int documento = Integer.parseInt(jtxDocumento.getText());
+        double sueldo = Double.parseDouble(jtxSueldo.getText());
+
+        if (jtxApellido.getText().isEmpty() || jcbEmpresa.getSelectedItem() == null || jtxNombre.getText().isEmpty() || jcbCategoria.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, complet todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Buscar la empresa correspondiente
+            Empresa empresaSeleccionada = null;
+            for (Empresa empresa : empresas) {
+                if (empresa.getRazonSocial().equals(razonSocialEmpresa)) {
+                    empresaSeleccionada = empresa;
+                    break;
+                }
+            }
+
+            if (empresaSeleccionada != null) {
+                String nombreYapellido = apellido + " " + nombre;
+                Empleado nuevoEmpleado = new Empleado(documento, nombreYapellido, categoria, sueldo, empresaSeleccionada);
+                empresaSeleccionada.agregarEmpleado(nuevoEmpleado);
+
+                // Limpieza de campos después de guardar
+                jtxApellido.setText("");
+                jtxNombre.setText("");
+                jtxDocumento.setText("");
+                jtxSueldo.setText("");
+                jcbCategoria.setSelectedIndex(-1);
+                jcbEmpresa.setSelectedIndex(-1);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontro la empresa seleccionada.", "Opss", JOptionPane.ERROR_MESSAGE);
+            }
         }
+    } catch (NumberFormatException nf) {
+        JOptionPane.showMessageDialog(null, "Verifica los Campos <ERROR de datos>.", "Opss", JOptionPane.ERROR_MESSAGE);
     }
-
-    if (empresaSeleccionada != null) {
-        String nombreYapellido = apellido + " " + nombre;
-        Empleado nuevoEmpleado = new Empleado(documento, nombreYapellido, categoria, sueldo, empresaSeleccionada);
-        empresaSeleccionada.agregarEmpleado(nuevoEmpleado);
-
-        // Limpieza de campos después de guardar
-        jtxApellido.setText("");
-        jtxNombre.setText("");
-        jtxDocumento.setText("");
-        jtxSueldo.setText("");
-        jcbCategoria.setSelectedIndex(-1);
-       
-    } else {
-        JOptionPane.showMessageDialog(null, "No se encontró la empresa seleccionada.");
-    }
-
-    jcbEmpresa.setSelectedIndex(-1); // Reiniciar la selección del ComboBox de empresas
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
@@ -307,7 +343,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             empresaSeleccionada.mostrarEmpleado();
         } else {
             // Si no se encontró la empresa, mostrar un mensaje de error
-            JOptionPane.showMessageDialog(null, "No se encontró la empresa seleccionada.");
+            JOptionPane.showMessageDialog(null, "No se encontró la empresa seleccionada.", "Opss", JOptionPane.ERROR_MESSAGE);
         }
     
     }//GEN-LAST:event_btnMostrarActionPerformed

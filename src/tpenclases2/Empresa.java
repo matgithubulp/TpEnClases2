@@ -28,8 +28,24 @@ public class Empresa{
     }
 
     public void agregarEmpleado(Empleado empleado) {
-       empleados.add(empleado);
+        
+    boolean empleadoRepetido = false;
+    int numeroDocumentoNuevo = empleado.getDni();
+
+    for (Empleado empleadoExistente : empleados) {
+        if (empleadoExistente.getDni() == numeroDocumentoNuevo) {
+            empleadoRepetido = true;
+            break; // El empleado ya existe, no es necesario continuar buscando
+        }
+    }
+
+    if (!empleadoRepetido) {
+        empleados.add(empleado);
         JOptionPane.showMessageDialog(null, "Empleado agregado a la empresa " + razonSocial);
+    } else {
+        JOptionPane.showMessageDialog(null, "El empleado con DNI: " + numeroDocumentoNuevo + " ya existe en la empresa -> " + razonSocial, "Opss", JOptionPane.ERROR_MESSAGE);
+    }
+        
     }
 
     public ArrayList<Empleado> getEmpleados() {

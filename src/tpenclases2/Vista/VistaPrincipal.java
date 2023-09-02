@@ -233,25 +233,38 @@ public class VistaPrincipal extends javax.swing.JFrame {
        
     
     private void jbtnEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEmpresaActionPerformed
-       try{
-        // Obtener la información de la nueva empresa desde la GUI
-        String razonSocial = jtxRazonSocial.getText();
-        int cuit = Integer.parseInt(jtxCuit.getText());
+        try {
+            String razonSocial = jtxRazonSocial.getText();
+            int cuit = Integer.parseInt(jtxCuit.getText());
 
-        // Crear una nueva empresa y agregarla a la lista de empresas
-        Empresa nuevaEmpresa = new Empresa(razonSocial, cuit, new ArrayList<>());
-        empresas.add(nuevaEmpresa);
+            boolean empresaRepetida = false;
 
-        // Agregar el nombre de la nueva empresa al ComboBox
-        jcbEmpresa.addItem(razonSocial);
+// Verificar si la empresa ya existe en la lista
+            for (Empresa empresaExistente : empresas) {
+                if (empresaExistente.getRazonSocial().equals(razonSocial) || empresaExistente.getCuit() == cuit) {
+                    empresaRepetida = true;
+                    break;
+                }
+            }
 
-        // Bloquear botones según el estado
-        bloquear();
-        }catch(NumberFormatException d){
+            if (!empresaRepetida) {
+                // La empresa no está repetida, puedes agregarla
+                Empresa nuevaEmpresa = new Empresa(razonSocial, cuit, new ArrayList<>());
+                empresas.add(nuevaEmpresa);
+
+                jcbEmpresa.addItem(razonSocial);
+
+                bloquear();
+            } else {
+                JOptionPane.showMessageDialog(this, "Nombre o Cuit repetido", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+            jcbCategoria.setSelectedIndex(-1);
+            jcbEmpresa.setSelectedIndex(-1);
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Verifica los campos <ERROR de datos>.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        jcbCategoria.setSelectedIndex(-1);
-        jcbEmpresa.setSelectedIndex(-1);
+
     }//GEN-LAST:event_jbtnEmpresaActionPerformed
 
     private void jcbEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEmpresaActionPerformed
